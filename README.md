@@ -14,8 +14,6 @@ Full-stack **web application**: map UI (click for risk score, safe water list, u
 **If given longer, what would be the next improvement you would make?**  
 Wire **real** reservoir→area data (state water boards or USGS/EPA) so “your water source” is accurate; add **EPA FRS / EIA / NRC** for live facility locations instead of demo data; and add a **disaster-radius heat map** so the whole map shows risk by grid cell, not just the clicked point.
 
-See **[MISSION.md](./MISSION.md)** for the full direction (reservoir → area, infrastructure-based risk) and how we're phasing it. The app currently uses disaster declarations for a water-safety risk score; we're extending toward reservoir sourcing and facilities (oil rigs, power plants, nuclear) as data is wired.
-
 ## Set Up Instructions
 
 1. **Node.js 18+** — `node -v` to check. Use [nvm](https://github.com/nvm-sh/nvm) or [fnm](https://github.com/Schniz/fnm) if needed.
