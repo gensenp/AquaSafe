@@ -26,3 +26,8 @@ Thumbs.db
 .vscode/
 *.swp
 *.swo
+
+# Internal project notes/docs (not for public repo)
+RUN-LOCALLY.md
+RUN-ON-MAC.md
+WALKTHROUGH.md
