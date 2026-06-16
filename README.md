@@ -1,58 +1,79 @@
-# AquaSafe — AINU Hackathon
+# AquaSafe
 
-**Mission:** Show which reservoirs supply an area and whether disasters or hazardous infrastructure (oil, power, nuclear) put that supply at risk — so people know if their **water source** is susceptible, not just where the nearest tap is.
+AquaSafe is a map-based web app that helps people find safer water options during disasters.
+Instead of only showing nearby taps or fountains, it also looks at disaster activity and infrastructure risk around the selected location.
 
-**Details:** In a disaster, “nearest water fountain” isn’t enough — taps can be offline or contaminated. AquaSafe answers: *Which reservoir supplies this area?* and *Is that source (or nearby power plants, refineries, nuclear sites) in a disaster zone?* So you see a water-safety risk score (0–100) for any point on the map, based on FEMA disaster declarations, proximity to hazardous facilities (nuclear, refineries, power plants), and whether your water source reservoir is in an affected zone.
-**OpenFEMA API** (no key) for disaster declarations and state-level coordinates  
-- **OpenStreetMap** (Overpass) for nearby water points (fountains, taps)  
-- **React + Leaflet** for the interactive map; **Express + TypeScript** for the API  
-- **Demo datasets** for reservoirs and facilities (EPA FRS / EIA / NRC–style data can be wired later)
+## Why this project exists
 
-**What extension type(s) did you build?**  
-Full-stack **web application**: map UI (click for risk score, safe water list, user-reported safe water, disaster circles) and REST API (risk, FEMA, water nearby, safe-water reports). No browser extension; runs in the browser at localhost:5173 with API at localhost:5001.
+During emergencies, "closest water point" is not always the safest choice. Flooding, power outages, and facility incidents can affect local supply quickly.
 
-**If given longer, what would be the next improvement you would make?**  
-Wire **real** reservoir→area data (state water boards or USGS/EPA) so “your water source” is accurate; add **EPA FRS / EIA / NRC** for live facility locations instead of demo data; and add a **disaster-radius heat map** so the whole map shows risk by grid cell, not just the clicked point.
+AquaSafe gives users a clearer picture by combining map data with risk context in one place.
 
-## Set Up Instructions
+## What it does
 
-1. **Node.js 18+** — `node -v` to check. Use [nvm](https://github.com/nvm-sh/nvm) or [fnm](https://github.com/Schniz/fnm) if needed.
+- Click anywhere on the map to get a water safety risk score.
+- View disaster declarations affecting the selected area.
+- See nearby water sources and community-reported safe water points.
+- Report a safe water location from the map.
+- Get route links to selected water points.
 
-2. **Environment (optional keys)**  
-   ```bash
-   cp .env.example .env
-   ```  
-   - **EPA_API_KEY** — Free at [api.data.gov](https://api.data.gov/signup/) (for future EPA water-quality integration).  
-   - **OPENAI_API_KEY** — Optional; only for AI risk explanation.
+## Data sources
 
-3. **Install and run**  
-   From the repo root:
-   ```bash
-   npm run install:all    # installs root, server, and client deps (first time)
-   npm run dev            # starts server on 5001 and client on 5173
-   ```  
-   Or in two terminals: `cd server && npm install && npm run dev` and `cd client && npm install && npm run dev`.
+- [OpenFEMA](https://www.fema.gov/openfema-data-page/disaster-declarations-summaries-v2): disaster declarations
+- [OpenStreetMap / Overpass](https://www.openstreetmap.org/): nearby water points
+- Demo reservoir and facility datasets included in this project
 
-4. **Verify**  
-   - App: **http://localhost:5173** — click the map to see risk score, water source, and nearby facilities.  
-   - API: **http://localhost:5001/api/health** — should return `{ "ok": true }`.
+## Tech stack
 
-No third-party sign-up is required to run the core app (FEMA and OSM work without keys). EPA and OpenAI keys are only for optional features.
+- Frontend: React, TypeScript, Vite, Leaflet, Tailwind CSS
+- Backend: Express, TypeScript
+- Storage: SQLite (for reports)
+- Optional AI: summary/risk explanation if `OPENAI_API_KEY` is set
 
-**Screenshot**  
+## Run locally
 
----<img width="959" height="539" alt="AquaSafe" src="https://github.com/user-attachments/assets/ebe80d92-44b7-4a1f-bbce-9b8def977200" />
+### Requirements
 
+- Node.js 18+ (Node 20 recommended)
 
-## Stack
+### Setup
 
-- **Frontend:** React, TypeScript, Vite, Leaflet (map), Tailwind CSS
-- **Backend:** Express, TypeScript
-- **Data:** EPA (api.data.gov), OpenFEMA; user reports (SQLite)
-- **AI:** Risk scoring (heuristic → optional LLM), NLP for report urgency
+```bash
+npm install
+cp .env.example .env
+```
 
-**Collaborators**  
-Gensen Pawlicki
-Nigel Purvis
-Lucas Fujii
-Miki Ashaye
+`OPENAI_API_KEY` is optional. The app works without it.
+
+### Start development servers
+
+```bash
+npm run dev
+```
+
+- Client: `http://localhost:5173`
+- API: `http://localhost:5001/api/health`
+
+## Deploying
+
+This project is configured to deploy on Vercel with:
+
+- Static client build from `client/dist`
+- Serverless API route via `api/[...all].ts`
+
+If you fork this repo, make sure your Vercel project points at the repository root and uses the included `vercel.json`.
+
+## Project status / next steps
+
+Current version is a functional hackathon prototype. Planned improvements include:
+
+- More accurate source-water mapping by region
+- Production-grade infrastructure/facility datasets
+- Improved risk model calibration and explanations
+
+## Team
+
+- Gensen Pawlicki
+- Nigel Purvis
+- Lucas Fujii
+- Miki Ashaye
